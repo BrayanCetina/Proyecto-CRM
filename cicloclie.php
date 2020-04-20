@@ -1,11 +1,11 @@
 <?php
  
 $dataPoints = array( 
-	array("label"=>"Prospects", "y"=>2130),
-	array("label"=>"Inquiries", "y"=>1043),
-	array("label"=>"Applicants", "y"=>501),
-	array("label"=>"Admits", "y"=>295),
-	array("label"=>"Enrolled", "y"=>135)
+	array("label"=>"Reactivación", "y"=>830),
+	array("label"=>"Retención", "y"=>1000),
+	array("label"=>"Crecimiento", "y"=>1500),
+	array("label"=>"Conversión", "y"=>295),
+	array("label"=>"Adquisición", "y"=>335)
 )
  
 ?>
@@ -37,7 +37,7 @@ $dataPoints = array(
     window.onload = function() {
      
     var chart = new CanvasJS.Chart("chartContainer", {
-      theme: "dark2",
+      theme: "light2",
       animationEnabled: true,
       title: {
         text: ""
@@ -118,7 +118,7 @@ $dataPoints = array(
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="clientes.html">
           <i class="fas fa-fw fa-user"></i>
           <span>Clientes</span></a>
       </li>
@@ -247,12 +247,7 @@ $dataPoints = array(
                       <th>Nombre</th>
                       <th>Correo</th>
                       <th>Telefono</th>
-                      <th>Gym</th>
-                      <th>Edad</th>
-                      <th>Cumpleaños</th>
-                      <th>Fecha de Inicio</th>
-                      <th>Categoria</th>
-                      <th>Monto</th>
+                      <th>Fase</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -260,144 +255,103 @@ $dataPoints = array(
                       <td>Tiger Nixon</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>Edinburgh</td>
-                      <td>61</td>
-                      <td>2011/04/25</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$320,800</td>
+                      <th>Crecimiento</th>
                     </tr>
                     <tr>
                       <td>Garrett Winters</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>Tokyo</td>
-                      <td>63</td>
-                      <td>2011/07/25</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$170,750</td>
+                      
+                      <th>Adquisición</th>
+                      
                     </tr>
                     <tr>
                       <td>Ashton Cox</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$86,000</td>
+                      
+                      <th>Crecimiento</th>
+                      
                     </tr>
                     <tr>
                       <td>Cedric Kelly</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$433,060</td>
+                      
+                      <th>Conversión</th>
+                      
                     </tr>
                     <tr>
                       <td>Airi Satou</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$162,700</td>
+                      
+                      <th>Retención</th>
+                      
                     </tr>
                     <tr>
                       <td>Brielle Williamson</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$372,000</td>
+                      
+                      <th>Reactivación</th>
+                     
                     </tr>
                     <tr>
                       <td>Herrod Chandler</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>San Francisco</td>
-                      <td>59</td>
-                      <td>2012/08/06</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$137,500</td>
+                      
+                      <th>Crecimiento</th>
+                      
                     </tr>
                     <tr>
                       <td>Rhona Davidson</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>Tokyo</td>
-                      <td>55</td>
-                      <td>2010/10/14</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$327,900</td>
+                     
+                      <th>Retención</th>
+                      
                     </tr>
                     <tr>
                       <td>Colleen Hurst</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>San Francisco</td>
-                      <td>39</td>
-                      <td>2009/09/15</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$205,500</td>
+                     
+                      <th>Reactivación</th>
+                      
                     </tr>
                     <tr>
                       <td>Sonya Frost</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>Edinburgh</td>
-                      <td>23</td>
-                      <td>2008/12/13</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$103,600</td>
+                      
+                      <th>Crecimiento</th>
+                      
                     </tr>
                     <tr>
                       <td>Jena Gaines</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>London</td>
-                      <td>30</td>
-                      <td>2008/12/19</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$90,560</td>
+                      
+                      <th>Adquisición</th>
+                      
                     </tr>
                     <tr>
                       <td>Quinn Flynn</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2013/03/03</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$342,000</td>
+                      
+                      <th>Retención</th>
+                      
                     </tr>
                     <tr>
                       <td>Charde Marshall</td>
                       <td>@gmail</td>
                       <td>99</td>
-                      <td>San Francisco</td>
-                      <td>36</td>
-                      <td>2008/10/16</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$470,600</td>
+                      
+                      <th>Conversión</th>
+                      
                     </tr>
                   </tbody>
                   </table>
