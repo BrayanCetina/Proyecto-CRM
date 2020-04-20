@@ -83,11 +83,17 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="clientes.html">
-          <i class="fas fa-fw fa-user"></i>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-dollar-sign"></i>
           <span>Clientes</span></a>
+          <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opciones:</h6>
+            <a class="collapse-item" href="clientes.html">Clientes</a>
+            <a class="collapse-item" href="clientes_graficas.html">Gráficas de Clientes</a>
+          </div>
+        </div>
       </li>
-
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 

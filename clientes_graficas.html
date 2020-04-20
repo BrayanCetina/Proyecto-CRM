@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>CRM - Clientes</title>
+  <title>CRM GYM - Inicio</title>
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.css" rel="stylesheet" type="text/css">
@@ -17,6 +17,9 @@
 
   <!-- Custom styles for this template -->
   <link href="css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
 </head>
 
@@ -50,7 +53,6 @@
       <hr class="sidebar-divider">
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-dollar-sign"></i>
@@ -80,9 +82,16 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="clientes.html">
-          <i class="fas fa-fw fa-user"></i>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-dollar-sign"></i>
           <span>Clientes</span></a>
+          <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opciones:</h6>
+            <a class="collapse-item" href="clientes.html">Clientes</a>
+            <a class="collapse-item" href="clientes_graficas.html">Gráficas de Clientes</a>
+          </div>
+        </div>
       </li>
 
       <!-- Divider -->
@@ -101,7 +110,6 @@
 
       <!-- Main Content -->
       <div id="content">
-
 
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -172,32 +180,30 @@
         </nav>
         <!-- End of Topbar -->
 
-         <!-- Begin Page Content -->
+        <!-- Begin Page Content -->
         <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Gráficas de Cliente</h1>
-
-          <!-- Content Row -->
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Estadisticas de Clientes</h1>
+                    <!-- Content Row -->
           <div class="row">
-
-            <div class="col-xl-8 col-lg-7">
-              <canvas id="lineChart"></canvas>
-
-              
-           
-
-        </div>
+            <div class="col-sm-6">Retención<canvas id="line2Chart"></canvas></div>
+            <div class="col-sm-6">Clientes por Tiempo<canvas id="horizontalBar"></canvas></div>
+            <div class="col-sm-6">Clientes perfectos<canvas id="pieChart"></canvas></div>
+            <div class="col-sm-6">Deudores<canvas id="pie2Chart"></canvas></div>
+          
+            
+          </div>
         <!-- /.container-fluid -->
 
       </div>
       <!-- End of Main Content -->
 
+
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>Copyright &copy; CRM GYM 2020</span>
           </div>
         </div>
       </footer>
@@ -214,9 +220,27 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">¿Estás seguro que quieres cerrar sesión?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+       
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <a class="btn btn-primary" href="login.html">Cerrar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
+   <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
 
   <!-- Core plugin JavaScript-->
@@ -229,10 +253,10 @@
   <script src="vendor/chart.js/Chart.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
+
   <script src="js/demo/chart-pie-demo.js"></script>
-  <script src="js/demo/chart-linea-demo.js"></script>
-
+  <script src="js/demo/chart-bar-demo.js"></script>
+  <script src="js/demo/chart-dona-demo.js"></script>
+  <script src="js/demo/chart-area-demo.js"></script>
 </body>
-
 </html>
