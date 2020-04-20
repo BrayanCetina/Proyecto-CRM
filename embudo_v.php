@@ -37,7 +37,7 @@ $dataPoints = array(
     window.onload = function() {
      
     var chart = new CanvasJS.Chart("chartContainer", {
-      theme: "dark2",
+      theme: "white",
       animationEnabled: true,
       title: {
         text: ""
@@ -99,6 +99,7 @@ $dataPoints = array(
             <h6 class="collapse-header">Opciones:</h6>
             <a class="collapse-item" href="ventas.html">Productos</a>
             <a class="collapse-item" href="ventasPaquetes.html">Paquetes</a>
+            <a class="collapse-item" href="embudo_v.php">Enbudo de ventas</a>
           </div>
         </div>
       </li>
@@ -118,9 +119,17 @@ $dataPoints = array(
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-user"></i>
-          <span>Clientes</span></a>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientes" aria-expanded="true" aria-controls="clientes">
+          <i class="fas fa-fw fa-wrench"></i>
+          <span>Clientes</span>
+        </a>
+        <div id="clientes" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opciones:</h6>
+            <a class="collapse-item" href="clientes.html">Clientes</a>
+            <a class="collapse-item" href="clientes_graficas.html">Gráficas de Clientes</a>
+          </div>
+        </div>
       </li>
 
       <!-- Divider -->
