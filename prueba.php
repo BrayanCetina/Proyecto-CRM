@@ -1,3 +1,14 @@
+<?php
+ 
+$dataPoints = array( 
+	array("label"=>"Prospects", "y"=>2130),
+	array("label"=>"Inquiries", "y"=>1043),
+	array("label"=>"Applicants", "y"=>501),
+	array("label"=>"Admits", "y"=>295),
+	array("label"=>"Enrolled", "y"=>135)
+)
+ 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,10 +17,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>CRM - Clientes</title>
+  <title>CRM - Ventas</title>
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.css" rel="stylesheet" type="text/css">
@@ -20,6 +32,30 @@
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+  <script>
+    window.onload = function() {
+     
+    var chart = new CanvasJS.Chart("chartContainer", {
+      theme: "dark2",
+      animationEnabled: true,
+      title: {
+        text: ""
+        },
+        element: 'area-example',
+      data: [{
+        type: "funnel",
+        indexLabel: "{label} - {y}",
+        yValueFormatString: "#,##0",
+        showInLegend: true,
+        legendText: "{label}",
+        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+      }]
+    });
+    chart.render();
+     
+    }
+    </script>
 
 </head>
 
@@ -51,7 +87,7 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
-
+      
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -82,7 +118,7 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="clientes.html">
+        <a class="nav-link" href="tables.html">
           <i class="fas fa-fw fa-user"></i>
           <span>Clientes</span></a>
       </li>
@@ -172,20 +208,40 @@
 
         </nav>
         <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
+         
+<!--                       AQUI EL DIV                        -->
+        <!-- INICIO -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Clientes</h1>
+          <h1 class="h3 mb-2 text-gray-800">Ventas</h1>
           <!-- DataTales Example -->
+          
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Clientes de Ejemplo</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <!--Aqui comienza lo que se quiera poner -->
+                  <div class="col-md-12">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <div id="chartContainer" style="height: 360px; width: 100%;"></div>
+                  </table>
+                  </div>
+              </div>
+            </div>
+          </div>         <!-- DataTales Example -->
+          
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Lista de datos</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <!--Aqui comienza lo que se quiera poner -->
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
                   <thead>
                     <tr>
                       <th>Nombre</th>
@@ -344,14 +400,13 @@
                       <td>$470,600</td>
                     </tr>
                   </tbody>
-                </table>
-              </div>
+                  </table>
+                </div>
+              
             </div>
           </div>
-
         </div>
         <!-- /.container-fluid -->
-
       </div>
       <!-- End of Main Content -->
 
@@ -396,14 +451,14 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.js"></script>
+  <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
 
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
 
   <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.js"></script>
@@ -411,6 +466,8 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
-
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+ 
 </body>
+
 </html>
