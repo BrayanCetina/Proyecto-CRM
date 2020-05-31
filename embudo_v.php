@@ -5,7 +5,7 @@ $dataPoints = array(
 	array("label"=>"Consideración", "y"=>1043),
 	array("label"=>"Preferencia", "y"=>501),
 	array("label"=>"Compra", "y"=>295),
-	array("label"=>"Recompra", "y"=>135)
+	array("label"=>"Recompra ", "y"=>135)
 )
  
 ?>
