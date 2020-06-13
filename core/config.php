@@ -4,7 +4,7 @@ function conectar() {
     $DBuser = "root";
     $DBpass = "";
     $DBserver = "localhost";
-    $DBdatos = "sport";
+    $DBdatos = "proyecto_cobay";
 ////////////NUEVO METODO DE CONEXION////////////////////
     $link = mysqli_connect($DBserver, $DBuser, $DBpass, $DBdatos);
 

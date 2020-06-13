@@ -1,422 +1,361 @@
 <?php
- 
-$dataPoints = array( 
-	array("label"=>"Conocimiento", "y"=>2130),
-	array("label"=>"Consideración", "y"=>1043),
-	array("label"=>"Preferencia", "y"=>501),
-	array("label"=>"Compra", "y"=>295),
-	array("label"=>"Recompra ", "y"=>135)
+
+$dataPoints = array(
+  array("label" => "Conocimiento", "y" => 2130),
+  array("label" => "Consideración", "y" => 1043),
+  array("label" => "Preferencia", "y" => 501),
+  array("label" => "Compra", "y" => 295),
+  array("label" => "Recompra ", "y" => 135)
 )
- 
+
 ?>
+
+<?php
+require_once('lib/links.php');
+libnivel3();
+
+require_once('controllers/alumnosController.php');
+$Alumnos = new alumnosController();
+require_once('models/Alumnos.php');
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>CRM - Ventas</title>
-
-  <!-- Custom fonts for this template -->
-  <link href="vendor/fontawesome-free/css/all.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="css/sb-admin-2.css" rel="stylesheet">
-
-  <!-- Custom styles for this page -->
-  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
+  <?php
+  getMeta("Alta de Alumnos"); //hacemos el llamado de las el titulo y las referencias
+  estilosPaginas(); //le damos estilo a la tabla, los colores y el fondo
+  ?>
   <script>
     window.onload = function() {
-     
-    var chart = new CanvasJS.Chart("chartContainer", {
-      theme: "white",
-      animationEnabled: true,
-      title: {
-        text: ""
+
+      var chart = new CanvasJS.Chart("chartContainer", {
+        theme: "white",
+        animationEnabled: true,
+        title: {
+          text: ""
         },
         element: 'area-example',
-      data: [{
-        type: "funnel",
-        indexLabel: "{label} - {y}",
-        yValueFormatString: "#,##0",
-        showInLegend: true,
-        legendText: "{label}",
-        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-      }]
-    });
-    chart.render();
-     
+        data: [{
+          type: "funnel",
+          indexLabel: "{label} - {y}",
+          yValueFormatString: "#,##0",
+          showInLegend: true,
+          legendText: "{label}",
+          dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+        }]
+      });
+      chart.render();
+
     }
-    </script>
+  </script>
+
+
+  <script type="text/javascript">
+    var ActualMatricula;
+    var ActualNombre;
+    $(document).ready(function() {
+
+      ///////DATABLES ////////
+      $('#tableAlumnos').DataTable();
+      ///////GENERACION DEL CRUD EN LA TABLA////// 
+      $('[data-toggle="tooltip"]').tooltip();
+      var actions = $("table td:last-child").html();
+
+      // Append table with add row form on add new button click
+      $(".add-new").click(function() {
+        $(this).attr("disabled", "disabled");
+        var index = $("table tbody tr:first-child").index();
+        var row = '<tr>' +
+          '<td><input type="text" class="form-control" name="inputMatricula" id="inputMatricula" ></td>' +
+          '<td><input type="text" class="form-control" name="inputNombre" id="inputNombre"></td>' +
+          '<td><input type="text" class="form-control" name="inputEstatus" id="inputEstatus" placeholder="Automatico" readonly "></td>' +
+          '<td><input type="text" class="form-control" name="aviso" id="aviso" placeholder="Automatico" readonly "></td>' +
+          '<td>' + actions + '</td>' +
+          '</tr>';
+        $("table").prepend(row);
+        $("table tbody tr").eq(index + 0).find(".add , .update, .delete, .update, .edit").toggle();
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+      // Add row on add button click (Agregar base de datos)
+      $(document).on("click", ".add", function() {
+        /////GUARDAR LOS DATOS/////
+        //1. OBTENER LOS VALORES//
+        var matricula = document.getElementById("inputMatricula").value; //(JALAR EL VALOR INGRESADO)
+        var nombre = document.getElementById("inputNombre").value;
+        //2. ENVIAR POR POTS//
+        if (matricula != "" || nombre != "") {
+          $.post("../../controllers/alumnosController.php", {
+              inputMatricula: matricula,
+              inputNombre: nombre,
+              buttonCreate: true
+            },
+            function(data) {
+              if (data === "-1") {
+                alert("Error al guardar los datos, revisar la matricula");
+              } else if (data === "-2") {
+                alert("Matricula ya existente: " + matricula)
+              } else {
+                alert("Registro Guardado con éxito");
+                location.reload(true);
+              }
+            });
+        } else {
+          alert("Porfavor llene los todo los campos");
+        }
+      });
+      //3. REFRESCAR LOS VALORES///
+      var empty = false;
+      var input = $(this).parents("tr").find('input[type="text"]');
+      input.each(function() {
+        if (!$(this).val()) {
+          $(this).addClass("error");
+          empty = true;
+        } else {
+          $(this).removeClass("error");
+        }
+      });
+      $(this).parents("tr").find(".error").first().focus();
+      if (!empty) {
+        input.each(function() {
+          $(this).parent("td").html($(this).val());
+        });
+        $(this).parents("tr").find(".add, .edit").toggle();
+        $(".add-new").removeAttr("disabled");
+        $(".update").removeAttr("enabled");
+      }
+      // Delete row on delete button click
+      $(document).on("click", ".delete", function() {
+        var matricula = $(this).parents("tr").find("td:first-child").html();
+        $.post("../../controllers/alumnosController.php", {
+            inputMatricula: matricula,
+            buttonDelete: true
+          },
+          function(data) {
+            if (data === "-1") {
+              alert("Error al guardar los datos, revisar la matricula: " + matricula);
+            } else {
+              location.reload(true);
+            }
+          });
+      });
+    });
+
+    //desactivar grupo 
+    $(document).on("click", ".btn-success", function() {
+      if (confirm("¿Esta seguro de la Acción?")) {
+        var matricula = ($(this).parents("tr").find("td:first-child").html());
+        $.post("../../controllers/alumnosController.php", {
+            input_matricula: matricula,
+            buttonDesactivar: true
+          },
+          function(data) {
+            if (data === "-1") {
+              alert("Error de conexión.");
+            } else {
+              location.reload(true);
+            }
+          });
+      }
+    });
+    //fin cambiar estado grupo
+    //activar grupo 
+    $(document).on("click", ".btn-danger", function() {
+      if (confirm("¿Esta seguro de la Acción?")) {
+        var matricula = ($(this).parents("tr").find("td:first-child").html());
+        $.post("../../controllers/alumnosController.php", {
+            input_matricula: matricula,
+            buttonActivar: true
+          },
+          function(data) {
+            if (data === "-1") {
+              alert("Error en la conexión.");
+            } else {
+              location.reload(true);
+            }
+          });
+      }
+    });
+
+    // Edit row on edit button click
+    $(document).on("click", ".edit", function() {
+      //busca
+      $(this).parents("tr").find("td:nth-child(1)").each(function() {
+        $(this).html('<input type="text" style="text-transform:uppercase" class="form-control" id="Matricula" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" value="' + $(this).text() + '">');
+      });
+      //busca 
+      $(this).parents("tr").find("td:nth-child(2)").each(function() {
+        $(this).html('<input type="text" style="text-transform:uppercase" class="form-control" id="Nombre" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" value="' + $(this).text() + '">');
+      });
+      ActualMatricula = document.getElementById("Matricula").value;
+      ActualNombre = document.getElementById("Nombre").value;
+      $(this).parents("tr").find(".edit, .delete").toggle();
+      $(".add-new").attr("disabled", "disabled");
+    });
+    /*Actualizar*/
+    $(document).on("click", ".update", function() {
+      var nuevaMatricula = document.getElementById("Matricula").value;
+      var nuevoNombre = document.getElementById("Nombre").value;
+      if (nuevoNombre != "" && nuevaMatricula != "") {
+        if (nuevaMatricula.length < 20) {
+          if (confirm("Se modificaran los datos, esta seguro de esto?")) {
+            $.post("../../controllers/alumnosController.php", {
+                Matricula: ActualMatricula,
+                imputMatriculaNueva: nuevaMatricula,
+                inputNombreNuevo: nuevoNombre,
+                buttonUpdate: true
+              },
+              function(data) {
+                if (data === "-1") {
+                  alert("Error al guardar los datos, revisar la matricula");
+                } else if (data === "-2") {
+                  alert("Error, Nueva matricula exitente");
+
+                } else {
+                  alert("Registro Guardado con éxito");
+                  location.reload(true);
+                }
+              });
+          }
+        } else {
+          alert("Tamaño de la matricula erronea");
+        }
+      } else {
+        location.reload(true);
+        alert("llene los campos");
+      }
+    });
+    //fin cambiar estado grupo
+  </script>
 
 </head>
 
 <body id="page-top">
 
   <!-- Page Wrapper -->
-  <div id="wrapper">
+  <?php
+  getHeader();
+  ?>
 
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <!--                       AQUI EL DIV                        -->
+  <!-- INICIO -->
+  <div class="container-fluid">
 
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">CRM GYM<sup></sup></div>
-      </a>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Ventas</h1>
+    <!-- DataTales Example -->
 
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-home"></i>
-          <span>Inicio</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-      
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-dollar-sign"></i>
-          <span>Ventas</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Opciones:</h6>
-            <a class="collapse-item" href="ventas.html">Productos</a>
-            <a class="collapse-item" href="ventasPaquetes.html">Paquetes</a>
-            <a class="collapse-item" href="embudo_v.php">Enbudo de ventas</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Marketing</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientes" aria-expanded="true" aria-controls="clientes">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Clientes</span>
-        </a>
-        <div id="clientes" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Opciones:</h6>
-            <a class="collapse-item" href="clientes.html">Clientes</a>
-            <a class="collapse-item" href="clientes_graficas.html">Gráficas de Clientes</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
       </div>
-
-    </ul>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
-
-          
-
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
-
-           
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
-            
-             <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Glendy Cruz</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Perfil
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Configuración
-                </a>
-              
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Cerrar Sesión
-                </a>
-              </div>
-            </li>
+      <div class="card-body">
+        <div class="table-responsive">
+          <!--Aqui comienza lo que se quiera poner -->
+          <div class="col-md-12">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <div id="chartContainer" style="height: 360px; width: 100%;"></div>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
-          </ul>
 
-        </nav>
-        <!-- End of Topbar -->
-         
-<!--                       AQUI EL DIV                        -->
-        <!-- INICIO -->
-        <div class="container-fluid">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <!--Aqui comienza lo que se quiera poner -->
 
-          <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Ventas</h1>
-          <!-- DataTales Example -->
-          
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <!--Aqui comienza lo que se quiera poner -->
-                  <div class="col-md-12">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <div id="chartContainer" style="height: 360px; width: 100%;"></div>
-                  </table>
-                  </div>
-              </div>
-            </div>
-          </div>         <!-- DataTales Example -->
-          
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Lista de datos</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <!--Aqui comienza lo que se quiera poner -->
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <!--TABLA-->
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
-                  <thead>
-                    <tr>
-                      <th>Nombre</th>
-                      <th>Correo</th>
-                      <th>Telefono</th>
-                      <th>Etapa embudo</th>
-                      <th>Gym</th>
-                      <th>Edad</th>
-                      <th>Fecha nacimiento</th>
-                      <th>Fecha de Inicio</th>
-                      
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Diana Marisol</td>
-                      <td>D@gmail</td>
-                      <td>99</td>
-                      <td>Conocimiento</td>
-                      <td>Punch</td>
-                      <td>21</td>
-                      <td>1998/04/20</td>
-                      <td>2011/04/25</td>
-                      
-                    </tr>
-                    <tr>
-                    <td>Berenice Roa</td>
-                      <td>B@gmail</td>
-                      <td>99</td>
-                      <td>Conocimiento</td>
-                      <td>Punch</td>
-                      <td>22</td>
-                      <td>1998/03/5</td>
-                      <td>2019/04/25</td>
-                    </tr>
-                    <tr>
-                    <td>Karen Villegas</td>
-                      <td>KV@gmail</td>
-                      <td>99</td>
-                      <td>Preferencia</td>
-                      <td>Sweet</td>
-                      <td>22</td>
-                      <td>1998/02/08</td>
-                      <td>2015/12/18</td>
-                    </tr>
-                    <tr>
-                      <td>Sayra Jimenez</td>
-                      <td>SJ@gmail</td>
-                      <td>99</td>
-                      <td>Compra</td>
-                      <td>rode</td>
-                      <td>21</td>
-                      <td>1999/01/30</td>
-                      <td>2017/04/10</td>
-                      
-                    </tr>
-                    <tr>
-                    <td>Marcela Tun</td>
-                      <td>MT@gmail</td>
-                      <td>99</td>
-                      <td>Compra</td>
-                      <td>rode</td>
-                      <td>23</td>
-                      <td>1997/06/20</td>
-                      <td>2018/12/25</td>
-                    </tr>
-                    <tr>
-                    <td>Yaresly Cime</td>
-                      <td>YC@gmail</td>
-                      <td>99</td>
-                      <td>Recompra</td>
-                      <td>Punch</td>
-                      <td>23</td>
-                      <td>1997/10/27</td>
-                      <td>2019/02/10</td>
-                    </tr>
-                    <tr>
-                    <td>Norber Chin</td>
-                      <td>NC@gmail</td>
-                      <td>99</td>
-                      <td>Consideracion</td>
-                      <td>rode</td>
-                      <td>22</td>
-                      <td>1998/09/17</td>
-                      <td>2011/04/25</td>
-                    </tr>
-                    <tr>
-                    <td>Katerin Cetina</td>
-                      <td>KC@gmail</td>
-                      <td>99</td>
-                      <td>Conocimiento</td>
-                      <td>sweet</td>
-                      <td>22</td>
-                      <td>1998/03/27</td>
-                      <td>2012/05/06</td>
-                    </tr>
-                    
-                  </tbody>
+              <div class="container">
+                <div class="table-wrapper">
+                 
+                  <table class="table table-bordered" id="tableAlumnos">
+                    <thead>
+                      <tr>
+                        <th>Matricula</th>
+                        <th>Nombre</th>
+                        <th>Estado Actual</th>
+                        <th>Mostrar Calificaciones </th>
+                        <th>Herramientas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $json = $Alumnos->read();
+                      $datosTabla = json_decode($json);
+
+                      foreach ($datosTabla as $row) {
+                        echo "<tr>"
+                          . "<td>" . $row->{'matricula'} . "</td>"
+                          . "<td>" . $row->{'nombre'} . "</td>"
+                          . "<td>" . $row->{'status'} . "</td>";
+                        if ($row->{'aviso'} === "SIN PENDIENTES") {
+                          echo "<td><button class='btn-success'>" . $row->{'aviso'} . "</button></td>";
+                        } else {
+                          echo "<td><button class='btn-danger' id='btn-activar' onclick='activarPeriodo(this);'>" . $row->{'aviso'} . "</button></td>";
+                        }
+                        echo "<td><a class = 'add' title = 'Agregar' data-toggle = 'tooltip'><i class = 'material-icons'>&#xE03B;</i></a>"
+                          . "<a class = 'edit' title = 'Editar' data-toggle = 'tooltip'><i class = 'material-icons'>&#xE254;</i></a>"
+                          . "<a class = 'delete' title = 'Eliminar' data-toggle = 'tooltip'><i class = 'material-icons'>&#xE872;</i></a>"
+                          . "<a class = 'update' title = 'Actualizar' data-toggle = 'tooltip'><i class = 'material-icons'>&#xE863;</i></a>"
+                          . "</td> </tr>";
+                      }
+                      ?>
+                    </tbody>
                   </table>
                 </div>
-              
-            </div>
+              </div>
+            </table>
+
+            <!--FIN TABLA-->
           </div>
         </div>
-        <!-- /.container-fluid -->
       </div>
-      <!-- End of Main Content -->
+  
 
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; CRM GYM 2020</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
 
-    </div>
-    <!-- End of Content Wrapper -->
 
-  </div>
-  <!-- End of Page Wrapper -->
+    <!-- /.container-fluid -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
+    <!-- End of Main Content -->
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">¿Estás seguro que quieres cerrar sesión?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-       
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="login.html">Cerrar Sesión</a>
-        </div>
-      </div>
-    </div>
-  </div>
+    <!-- Footer -->
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- End of Page Wrapper -->
 
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.js"></script>
+    <!-- Scroll to Top Button-->
+    <?php
+    getFooter();  //esta parte agrega toda la parte de abajo, los derechos reservados
+    ?>
 
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
 
-  <!-- Page level plugins -->
-  <script src="vendor/datatables/jquery.dataTables.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.js"></script>
 
-  <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
-  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
- 
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 </body>
 
 </html>
