@@ -1,13 +1,31 @@
 <?php
+include("core/config.php");
+$conexion = conectar();
+$consulta = "SELECT clientes.nombres, clientes.correo_cliente, apellido_p,apellido_m,etapas_embudo.etapas FROM clientes, etapas_embudo WHERE clientes.id_etapas = etapas_embudo.id_etapas";
+$consulta1 = "SELECT COUNT(*) total1 FROM clientes WHERE id_etapas=1";
+$consulta2 = "SELECT COUNT(*) total2 FROM clientes WHERE id_etapas=2";
+$consulta3 = "SELECT COUNT(*) total3 FROM clientes WHERE id_etapas=3";
+$consulta4 = "SELECT COUNT(*) total4 FROM clientes WHERE id_etapas=4";
+$consulta5 = "SELECT COUNT(*) total5 FROM clientes WHERE id_etapas=5";
+$resultado1 = mysqli_query($conexion,$consulta1);
+$resultado2 = mysqli_query($conexion,$consulta2);
+$resultado3 = mysqli_query($conexion,$consulta3);
+$resultado4 = mysqli_query($conexion,$consulta4);
+$resultado5 = mysqli_query($conexion,$consulta5);
+$fila1 = mysqli_fetch_assoc($resultado1);
+$fila2 = mysqli_fetch_assoc($resultado2);
+$fila3 = mysqli_fetch_assoc($resultado3);
+$fila4 = mysqli_fetch_assoc($resultado4);
+$fila5 = mysqli_fetch_assoc($resultado5);
 
-$dataPoints = array(
-  array("label" => "Conocimiento", "y" => 2130),
-  array("label" => "Consideración", "y" => 1043),
-  array("label" => "Preferencia", "y" => 501),
-  array("label" => "Compra", "y" => 295),
-  array("label" => "Recompra ", "y" => 135)
+$dataPoints = array( 
+	array("label"=>"Conocimiento", "y"=>$fila1['total1']),
+	array("label"=>"Consideración", "y"=>$fila2['total2']),
+	array("label"=>"Preferencia", "y"=>$fila3['total3']),
+	array("label"=>"Compra", "y"=>$fila4['total4']),
+	array("label"=>"Recompra", "y"=>$fila5['total5'])
 )
-
+ 
 ?>
 
 <?php
@@ -24,7 +42,7 @@ require_once('models/Alumnos.php');
 
 <head>
   <?php
-  getMeta("Alta de Alumnos"); //hacemos el llamado de las el titulo y las referencias
+  getMeta("Embudo de ventas"); //hacemos el llamado de las el titulo y las referencias
   estilosPaginas(); //le damos estilo a la tabla, los colores y el fondo
   ?>
   <script>
@@ -71,10 +89,11 @@ require_once('models/Alumnos.php');
           '<td><input type="text" class="form-control" name="inputNombre" id="inputNombre" ></td>' +
           '<td><input type="text" class="form-control" name="inputApellidop" id="inputApellidop"></td>' +
           '<td><input type="text" class="form-control" name="inputApellidom" id="inputApellidom"></td>' +
+          '<td><input type="text" class="form-control" name="inputEtapas" id="inputEtapas"></td>' +
           '<td><input type="text" class="form-control" name="inputTelefono" id="inputTelefono"></td>' +
-          '<td><input type="text" class="form-control" name="inputEtapa" id="inputEtapa" ></td>' +
           '</tr>';
         $("table").prepend(row);
+
         
       });
       // Add row on add button click (Agregar base de datos)
@@ -280,27 +299,33 @@ require_once('models/Alumnos.php');
                   <table class="table table-bordered" id="tableAlumnos">
                     <thead>
                       <tr>
+                        <th>Correo</th>
                         <th>Nombres</th>
                         <th>Apellido paterno</th>
                         <th>Apellido materno</th>
-                        <th>Telefono </th>
-                        <th>Etapa</th>
+                        <th>Etapas </th>
+
                       </tr>
                     </thead>
                     <tbody>
-                      <?php
-                      $json = $Alumnos->read();
-                      $datosTabla = json_decode($json);
+                    <?php 
+                    $resultado = mysqli_query($conexion,$consulta);
+                    while($row = mysqli_fetch_assoc($resultado)){
+                    ?>
+                    <tr>
+                      <td> <?php echo $row["correo_cliente"] ?> </td>
+                      <td> <?php echo $row["nombres"] ?> </td>
+                      <td> <?php echo $row["apellido_p"] ?> </td>
+                      <td> <?php echo $row["apellido_m"] ?> </td>
 
-                      foreach ($datosTabla as $row) {
-                        echo "<tr>"
-                          . "<td>" . $row->{'nombres'} . "</td>"
-                          . "<td>" . $row->{'apellido_p'} . "</td>"
-                          . "<td>" . $row->{'apellido_m'} . "</td>"
-                          . "<td>" . $row->{'telefono'} . "</td>"
-                          . "<td>" . $row->{'etapas'} . "</td></tr>";
-                      }
-                      ?>
+                      <th> <?php echo utf8_encode ($row["etapas"]) ?> </th>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+
+
+                    
                     </tbody>
                   </table>
                 </div>

@@ -36,7 +36,9 @@ class AlumnoAdmin {
     }
 
     function read() {
-        $sql = "SELECT nombres, apellido_p, apellido_m, telefono, etapas FROM clientes, etapas_embudo WHERE  clientes.Id_etapas=etapas_embudo.Id_etapas";
+        //$sql = "SELECT correo_cliente, nombres, apellido_p, apellido_m, telefono, etapas FROM clientes, etapas_embudo WHERE  clientes.Id_etapas=etapas_embudo.Id_etapas";
+
+       $sql = "SELECT clientes.correo_cliente, clientes.nombres, clientes.apellido_p, clientes.apellido_m, niveles.nivel, clientes.telefono, etapas_embudo.etapas FROM clientes INNER JOIN niveles ON clientes.id_nivel = niveles.id_nivel INNER JOIN etapas_embudo ON clientes.id_etapas = etapas_embudo.id_etapas";
         return getResultSQL($sql);
     }
 

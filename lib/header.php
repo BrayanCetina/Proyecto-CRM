@@ -41,6 +41,7 @@
         <a class="collapse-item" href="ventas.html">Productos</a>
         <a class="collapse-item" href="ventasPaquetes.html">Paquetes</a>
         <a class="collapse-item" href="embudo_v.php">Enbudo de ventas</a>
+        
       </div>
     </div>
   </li>
@@ -70,8 +71,7 @@
         <h6 class="collapse-header">Opciones:</h6>
         <a class="collapse-item" href="clientes.html">Clientes</a>
         <a class="collapse-item" href="clientes_graficas.html">Gráficas de Clientes</a>
-        <a class="collapse-item" href="cicloclie.php">Ciclo de Vida de Clientes</a>
-      </div>
+        <a class="collapse-item" href="cicloclie.php">Ciclo de Vida de Clientes</a>     
     </div>
   </li>
 

@@ -72,7 +72,7 @@ function getResultSQL($sql){
         $link = conectar();
 	$res = $link->query($sql);
 	if (!$res) {
-		//echo $link->error;
+		echo $link->error;
 		return $res;
 	}
 	else{
