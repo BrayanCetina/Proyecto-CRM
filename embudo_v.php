@@ -62,21 +62,20 @@ require_once('models/Alumnos.php');
       ///////GENERACION DEL CRUD EN LA TABLA////// 
       $('[data-toggle="tooltip"]').tooltip();
       var actions = $("table td:last-child").html();
-
+     // nombres, apellido_p, apellido_m, telefono, etapas_embudo.etapas
       // Append table with add row form on add new button click
       $(".add-new").click(function() {
         $(this).attr("disabled", "disabled");
         var index = $("table tbody tr:first-child").index();
         var row = '<tr>' +
-          '<td><input type="text" class="form-control" name="inputMatricula" id="inputMatricula" ></td>' +
-          '<td><input type="text" class="form-control" name="inputNombre" id="inputNombre"></td>' +
-          '<td><input type="text" class="form-control" name="inputEstatus" id="inputEstatus" placeholder="Automatico" readonly "></td>' +
-          '<td><input type="text" class="form-control" name="aviso" id="aviso" placeholder="Automatico" readonly "></td>' +
-          '<td>' + actions + '</td>' +
+          '<td><input type="text" class="form-control" name="inputNombre" id="inputNombre" ></td>' +
+          '<td><input type="text" class="form-control" name="inputApellidop" id="inputApellidop"></td>' +
+          '<td><input type="text" class="form-control" name="inputApellidom" id="inputApellidom"></td>' +
+          '<td><input type="text" class="form-control" name="inputTelefono" id="inputTelefono"></td>' +
+          '<td><input type="text" class="form-control" name="inputEtapa" id="inputEtapa" ></td>' +
           '</tr>';
         $("table").prepend(row);
-        $("table tbody tr").eq(index + 0).find(".add , .update, .delete, .update, .edit").toggle();
-        $('[data-toggle="tooltip"]').tooltip();
+        
       });
       // Add row on add button click (Agregar base de datos)
       $(document).on("click", ".add", function() {
@@ -281,11 +280,11 @@ require_once('models/Alumnos.php');
                   <table class="table table-bordered" id="tableAlumnos">
                     <thead>
                       <tr>
-                        <th>Matricula</th>
-                        <th>Nombre</th>
-                        <th>Estado Actual</th>
-                        <th>Mostrar Calificaciones </th>
-                        <th>Herramientas</th>
+                        <th>Nombres</th>
+                        <th>Apellido paterno</th>
+                        <th>Apellido materno</th>
+                        <th>Telefono </th>
+                        <th>Etapa</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -295,19 +294,11 @@ require_once('models/Alumnos.php');
 
                       foreach ($datosTabla as $row) {
                         echo "<tr>"
-                          . "<td>" . $row->{'matricula'} . "</td>"
-                          . "<td>" . $row->{'nombre'} . "</td>"
-                          . "<td>" . $row->{'status'} . "</td>";
-                        if ($row->{'aviso'} === "SIN PENDIENTES") {
-                          echo "<td><button class='btn-success'>" . $row->{'aviso'} . "</button></td>";
-                        } else {
-                          echo "<td><button class='btn-danger' id='btn-activar' onclick='activarPeriodo(this);'>" . $row->{'aviso'} . "</button></td>";
-                        }
-                        echo "<td><a class = 'add' title = 'Agregar' data-toggle = 'tooltip'><i class = 'material-icons'>&#xE03B;</i></a>"
-                          . "<a class = 'edit' title = 'Editar' data-toggle = 'tooltip'><i class = 'material-icons'>&#xE254;</i></a>"
-                          . "<a class = 'delete' title = 'Eliminar' data-toggle = 'tooltip'><i class = 'material-icons'>&#xE872;</i></a>"
-                          . "<a class = 'update' title = 'Actualizar' data-toggle = 'tooltip'><i class = 'material-icons'>&#xE863;</i></a>"
-                          . "</td> </tr>";
+                          . "<td>" . $row->{'nombres'} . "</td>"
+                          . "<td>" . $row->{'apellido_p'} . "</td>"
+                          . "<td>" . $row->{'apellido_m'} . "</td>"
+                          . "<td>" . $row->{'telefono'} . "</td>"
+                          . "<td>" . $row->{'etapas'} . "</td></tr>";
                       }
                       ?>
                     </tbody>
