@@ -1,19 +1,29 @@
 <?php
-
-require_once('lib/links.php');
-libnivel3();
-
-require_once('controllers/cicloclientesController.php');
-$Ciclo = new cicloclientesController();
-require_once('models/Cicloclientes.php');
-$react = $Ciclo->read();
+include("core/config.php");
+$conexion = conectar();
+$consulta = "SELECT clientes.nombres, clientes.correo_cliente, clientes.telefono, fases_ciclo_vida.fase FROM clientes, fases_ciclo_vida WHERE clientes.id_fases = fases_ciclo_vida.id_fases";
+$consulta1 = "SELECT COUNT(*) total1 FROM clientes WHERE Id_fases=1";
+$consulta2 = "SELECT COUNT(*) total2 FROM clientes WHERE Id_fases=2";
+$consulta3 = "SELECT COUNT(*) total3 FROM clientes WHERE Id_fases=3";
+$consulta4 = "SELECT COUNT(*) total4 FROM clientes WHERE Id_fases=4";
+$consulta5 = "SELECT COUNT(*) total5 FROM clientes WHERE Id_fases=5";
+$resultado1 = mysqli_query($conexion,$consulta1);
+$resultado2 = mysqli_query($conexion,$consulta2);
+$resultado3 = mysqli_query($conexion,$consulta3);
+$resultado4 = mysqli_query($conexion,$consulta4);
+$resultado5 = mysqli_query($conexion,$consulta5);
+$fila1 = mysqli_fetch_assoc($resultado1);
+$fila2 = mysqli_fetch_assoc($resultado2);
+$fila3 = mysqli_fetch_assoc($resultado3);
+$fila4 = mysqli_fetch_assoc($resultado4);
+$fila5 = mysqli_fetch_assoc($resultado5);
 
 $dataPoints = array( 
-	array("label"=>"Reactivación", "y"=>react),
-	array("label"=>"Retención", "y"=>react),
-	array("label"=>"Crecimiento", "y"=>1500),
-	array("label"=>"Conversión", "y"=>295),
-	array("label"=>"Adquisición", "y"=>335)
+	array("label"=>"Reactivación", "y"=>$fila1['total1']),
+	array("label"=>"Retención", "y"=>$fila2['total2']),
+	array("label"=>"Crecimiento", "y"=>$fila3['total3']),
+	array("label"=>"Conversión", "y"=>$fila4['total4']),
+	array("label"=>"Adquisición", "y"=>$fila5['total5'])
 )
  
 ?>
@@ -259,108 +269,19 @@ $dataPoints = array(
                     </tr>
                   </thead>
                   <tbody>
+                    <?php 
+                    $resultado = mysqli_query($conexion,$consulta);
+                    while($row = mysqli_fetch_assoc($resultado)){
+                    ?>
                     <tr>
-                      <td>Tiger Nixon</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <th>Crecimiento</th>
+                      <td> <?php echo $row["nombres"] ?> </td>
+                      <td> <?php echo $row["correo_cliente"] ?> </td>
+                      <td> <?php echo $row["telefono"] ?> </td>
+                      <th> <?php echo utf8_encode ($row["fase"]) ?> </th>
                     </tr>
-                    <tr>
-                      <td>Garrett Winters</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Adquisición</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Ashton Cox</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Crecimiento</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Cedric Kelly</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Conversión</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Airi Satou</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Retención</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Brielle Williamson</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Reactivación</th>
-                     
-                    </tr>
-                    <tr>
-                      <td>Herrod Chandler</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Crecimiento</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Rhona Davidson</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                     
-                      <th>Retención</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Colleen Hurst</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                     
-                      <th>Reactivación</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Sonya Frost</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Crecimiento</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Jena Gaines</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Adquisición</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Quinn Flynn</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Retención</th>
-                      
-                    </tr>
-                    <tr>
-                      <td>Charde Marshall</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      
-                      <th>Conversión</th>
-                      
-                    </tr>
+                    <?php
+                    }
+                    ?>
                   </tbody>
                   </table>
                 </div>

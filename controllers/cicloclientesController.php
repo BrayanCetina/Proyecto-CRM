@@ -57,7 +57,7 @@ elseif (isset($_POST['buttonActivar'])) {
     return False;
 }
 
-class ciclocientesController {
+class cicloclientesController {
     function index() {
         $objetoPlan = new Planes();
         $response = $objetoPlan->read();

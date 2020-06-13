@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class Ciclocientes {
+class Cicloclientes {
 
     function create($id_plan, $plan) {
         $sql2 = "INSERT INTO planes(plan,id_status_plan) VALUES ('" . $plan . "','1')";
@@ -35,7 +35,7 @@ class Ciclocientes {
     }
 
     function numero() {
-        $sql = "SELECT COUNT(Id_fases) FROM clientes WHERE Id_fases=2";
+        $sql = "SELECT COUNT(Id_fases) total FROM clientes WHERE Id_fases=2";
 
         return getResultSQL($sql);
     }
