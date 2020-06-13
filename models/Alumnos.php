@@ -14,6 +14,8 @@
 class AlumnoAdmin {
 
     function create($matricula, $nombre) {
+
+        
         $sql = "INSERT INTO alumnos(matricula,nombre,id_status,id_avisos) VALUES ('" . $matricula . "','$nombre" . "','1','0')";
         $response = getResultSQL($sql);
         if (!$response) {
@@ -34,7 +36,7 @@ class AlumnoAdmin {
     }
 
     function read() {
-        $sql = "SELECT matricula, nombre, alumno_status.status, avisos.aviso FROM alumnos INNER JOIN alumno_status ON alumnos.id_status=alumno_status.id_status INNER JOIN avisos ON alumnos.id_avisos = avisos.id_avisos";
+        $sql = "SELECT nombres, apellido_p, apellido_m, telefono, etapas FROM clientes, etapas_embudo WHERE  clientes.Id_etapas=etapas_embudo.Id_etapas";
         return getResultSQL($sql);
     }
 

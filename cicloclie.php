@@ -1,8 +1,16 @@
 <?php
- 
+
+require_once('lib/links.php');
+libnivel3();
+
+require_once('controllers/ciclocientesController.php');
+$Ciclo = new cicloclientesController();
+require_once('models/Ciclocientes.php');
+$react = $Ciclo->read();
+
 $dataPoints = array( 
-	array("label"=>"Reactivación", "y"=>830),
-	array("label"=>"Retención", "y"=>1000),
+	array("label"=>"Reactivación", "y"=>react),
+	array("label"=>"Retención", "y"=>react),
 	array("label"=>"Crecimiento", "y"=>1500),
 	array("label"=>"Conversión", "y"=>295),
 	array("label"=>"Adquisición", "y"=>335)
