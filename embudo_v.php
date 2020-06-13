@@ -13,7 +13,6 @@ $dataPoints = array(
 <?php
 require_once('lib/links.php');
 libnivel3();
-
 require_once('controllers/alumnosController.php');
 $Alumnos = new alumnosController();
 require_once('models/Alumnos.php');
@@ -87,7 +86,7 @@ require_once('models/Alumnos.php');
         var nombre = document.getElementById("inputNombre").value;
         //2. ENVIAR POR POTS//
         if (matricula != "" || nombre != "") {
-          $.post("../../controllers/alumnosController.php", {
+          $.post("controllers/alumnosController.php", {
               inputMatricula: matricula,
               inputNombre: nombre,
               buttonCreate: true
@@ -129,7 +128,7 @@ require_once('models/Alumnos.php');
       // Delete row on delete button click
       $(document).on("click", ".delete", function() {
         var matricula = $(this).parents("tr").find("td:first-child").html();
-        $.post("../../controllers/alumnosController.php", {
+        $.post("controllers/alumnosController.php", {
             inputMatricula: matricula,
             buttonDelete: true
           },
@@ -147,7 +146,7 @@ require_once('models/Alumnos.php');
     $(document).on("click", ".btn-success", function() {
       if (confirm("¿Esta seguro de la Acción?")) {
         var matricula = ($(this).parents("tr").find("td:first-child").html());
-        $.post("../../controllers/alumnosController.php", {
+        $.post("controllers/alumnosController.php", {
             input_matricula: matricula,
             buttonDesactivar: true
           },
@@ -165,7 +164,7 @@ require_once('models/Alumnos.php');
     $(document).on("click", ".btn-danger", function() {
       if (confirm("¿Esta seguro de la Acción?")) {
         var matricula = ($(this).parents("tr").find("td:first-child").html());
-        $.post("../../controllers/alumnosController.php", {
+        $.post("controllers/alumnosController.php", {
             input_matricula: matricula,
             buttonActivar: true
           },
@@ -201,7 +200,7 @@ require_once('models/Alumnos.php');
       if (nuevoNombre != "" && nuevaMatricula != "") {
         if (nuevaMatricula.length < 20) {
           if (confirm("Se modificaran los datos, esta seguro de esto?")) {
-            $.post("../../controllers/alumnosController.php", {
+            $.post("controllers/alumnosController.php", {
                 Matricula: ActualMatricula,
                 imputMatriculaNueva: nuevaMatricula,
                 inputNombreNuevo: nuevoNombre,
@@ -321,19 +320,6 @@ require_once('models/Alumnos.php');
           </div>
         </div>
       </div>
-  
-
-
-
-    <!-- /.container-fluid -->
-
-    <!-- End of Main Content -->
-
-    <!-- Footer -->
-
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
     <?php
     getFooter();  //esta parte agrega toda la parte de abajo, los derechos reservados
     ?>

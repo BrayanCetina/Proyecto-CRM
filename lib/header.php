@@ -49,11 +49,12 @@
   <hr class="sidebar-divider">
 
   <!-- Nav Item - Charts -->
+  <!-- Nav Item - Marketing -->
   <li class="nav-item">
-    <a class="nav-link" href="charts.html">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Marketing</span></a>
-  </li>
+        <a class="nav-link" href="marketing.html">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Marketing</span></a>
+      </li>
 
   <!-- Divider -->
   <hr class="sidebar-divider">
