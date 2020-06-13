@@ -1,3 +1,8 @@
+<?php
+  include("core/config.php");
+  $conexion = conectar();
+  $consultar = "SELECT clientes.nombres, clientes.correo_cliente, clientes.telefono, niveles.nivel, clientes.fecha_nacimiento, clientes.fecha_inscripcion, categorias.categoria, clientes.monto FROM clientes, niveles, categorias WHERE clientes.id_categoria = categorias.id_categoria AND clientes.id_nivel = niveles.id_nivel";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -201,158 +206,31 @@
                       <th>Nombre</th>
                       <th>Correo</th>
                       <th>Telefono</th>
-                      <th>Gym</th>
-                      <th>Edad</th>
+                      <th>Nivel</th>
                       <th>Cumpleaños</th>
                       <th>Fecha de Inicio</th>
                       <th>Categoria</th>
                       <th>Monto</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="datos">
+                    <?php 
+                    $resultado = mysqli_query($conexion,$consultar);
+                    while($row = mysqli_fetch_assoc($resultado)){
+                    ?>
                     <tr>
-                      <td>Tiger Nixon</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>Edinburgh</td>
-                      <td>61</td>
-                      <td>2011/04/25</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$320,800</td>
+                      <td> <?php echo $row["nombres"] ?> </td>
+                      <td> <?php echo $row["correo_cliente"] ?> </td>
+                      <td> <?php echo $row["telefono"] ?> </td>
+                      <td> <?php echo $row["nivel"] ?> </td>
+                      <td> <?php echo $row["fecha_nacimiento"] ?> </td>
+                      <td> <?php echo $row["fecha_inscripcion"] ?> </td>
+                      <th> <?php echo $row["categoria"] ?> </th>
+                      <td> <?php echo $row["monto"] ?> </td>
                     </tr>
-                    <tr>
-                      <td>Garrett Winters</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>Tokyo</td>
-                      <td>63</td>
-                      <td>2011/07/25</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$170,750</td>
-                    </tr>
-                    <tr>
-                      <td>Ashton Cox</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$86,000</td>
-                    </tr>
-                    <tr>
-                      <td>Cedric Kelly</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$433,060</td>
-                    </tr>
-                    <tr>
-                      <td>Airi Satou</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$162,700</td>
-                    </tr>
-                    <tr>
-                      <td>Brielle Williamson</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$372,000</td>
-                    </tr>
-                    <tr>
-                      <td>Herrod Chandler</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>San Francisco</td>
-                      <td>59</td>
-                      <td>2012/08/06</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$137,500</td>
-                    </tr>
-                    <tr>
-                      <td>Rhona Davidson</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>Tokyo</td>
-                      <td>55</td>
-                      <td>2010/10/14</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$327,900</td>
-                    </tr>
-                    <tr>
-                      <td>Colleen Hurst</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>San Francisco</td>
-                      <td>39</td>
-                      <td>2009/09/15</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$205,500</td>
-                    </tr>
-                    <tr>
-                      <td>Sonya Frost</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>Edinburgh</td>
-                      <td>23</td>
-                      <td>2008/12/13</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$103,600</td>
-                    </tr>
-                    <tr>
-                      <td>Jena Gaines</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>London</td>
-                      <td>30</td>
-                      <td>2008/12/19</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$90,560</td>
-                    </tr>
-                    <tr>
-                      <td>Quinn Flynn</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2013/03/03</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$342,000</td>
-                    </tr>
-                    <tr>
-                      <td>Charde Marshall</td>
-                      <td>@gmail</td>
-                      <td>99</td>
-                      <td>San Francisco</td>
-                      <td>36</td>
-                      <td>2008/10/16</td>
-                      <td>2011/04/25</td>
-                      <th>Oro</th>
-                      <td>$470,600</td>
-                    </tr>
+                    <?php
+                    }
+                    ?>
                   </tbody>
                 </table>
               </div>
