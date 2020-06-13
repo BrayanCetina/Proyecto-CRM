@@ -105,7 +105,7 @@ $dataPoints = array(
 
       <!-- Divider -->
       <hr class="sidebar-divider">
-      
+
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -135,7 +135,6 @@ $dataPoints = array(
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientes" aria-expanded="true" aria-controls="clientes">
           <i class="fas fa-fw fa-wrench"></i>
@@ -235,7 +234,6 @@ $dataPoints = array(
           </ul>
 
         </nav>
-        <!-- End of Topbar -->
          
 <!--                       AQUI EL DIV                        -->
         <!-- INICIO -->

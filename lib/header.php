@@ -70,6 +70,7 @@
         <h6 class="collapse-header">Opciones:</h6>
         <a class="collapse-item" href="clientes.html">Clientes</a>
         <a class="collapse-item" href="clientes_graficas.html">Gráficas de Clientes</a>
+        <a class="collapse-item" href="cicloclie.php">Ciclo de Vida de Clientes</a>
       </div>
     </div>
   </li>
