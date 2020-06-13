@@ -39,7 +39,7 @@ $dataPoints = array(
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>CRM - Ventas</title>
+  <title>CRM - Ciclo de Vida de Clientes</title>
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.css" rel="stylesheet" type="text/css">
@@ -117,6 +117,7 @@ $dataPoints = array(
             <h6 class="collapse-header">Opciones:</h6>
             <a class="collapse-item" href="ventas.html">Productos</a>
             <a class="collapse-item" href="ventasPaquetes.html">Paquetes</a>
+            <a class="collapse-item" href="embudo_v.php">Enbudo de ventas</a>
           </div>
         </div>
       </li>
@@ -126,7 +127,7 @@ $dataPoints = array(
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="marketing.html">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Marketing</span></a>
       </li>
@@ -136,9 +137,18 @@ $dataPoints = array(
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="clientes.php">
-          <i class="fas fa-fw fa-user"></i>
-          <span>Clientes</span></a>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clientes" aria-expanded="true" aria-controls="clientes">
+          <i class="fas fa-fw fa-wrench"></i>
+          <span>Clientes</span>
+        </a>
+        <div id="clientes" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opciones:</h6>
+            <a class="collapse-item" href="clientes.php">Clientes</a>
+            <a class="collapse-item" href="clientes_graficas.html">Gráficas de Clientes</a>
+            <a class="collapse-item" href="cicloclie.php">Ciclo de Vida de Clientes</a>
+          </div>
+        </div>
       </li>
 
       <!-- Divider -->
