@@ -1,7 +1,9 @@
 <?php
   include("core/config.php");
   $conexion = conectar();
-  $consultar = "SELECT clientes.nombres, clientes.correo_cliente, clientes.telefono, niveles.nivel, clientes.fecha_nacimiento, clientes.fecha_inscripcion, categorias.categoria, clientes.monto FROM clientes, niveles, categorias WHERE clientes.id_categoria = categorias.id_categoria AND clientes.id_nivel = niveles.id_nivel";
+  $consultar = "SELECT clientes.nombres, clientes.correo_cliente, clientes.telefono, niveles.nivel, 
+  clientes.fecha_nacimiento, clientes.fecha_inscripcion, categorias.categoria, clientes.monto FROM 
+  clientes, niveles, categorias WHERE clientes.id_categoria = categorias.id_categoria AND clientes.id_nivel = niveles.id_nivel";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +96,7 @@
         <div id="clientes" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Opciones:</h6>
-            <a class="collapse-item" href="clientes.html">Clientes</a>
+            <a class="collapse-item" href="clientes.php">Clientes</a>
             <a class="collapse-item" href="clientes_graficas.html">Gráficas de Clientes</a>
           </div>
         </div>

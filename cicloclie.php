@@ -126,7 +126,7 @@ $dataPoints = array(
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="clientes.html">
+        <a class="nav-link" href="clientes.php">
           <i class="fas fa-fw fa-user"></i>
           <span>Clientes</span></a>
       </li>
