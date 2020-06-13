@@ -3,9 +3,9 @@
 require_once('lib/links.php');
 libnivel3();
 
-require_once('controllers/ciclocientesController.php');
+require_once('controllers/cicloclientesController.php');
 $Ciclo = new cicloclientesController();
-require_once('models/Ciclocientes.php');
+require_once('models/Cicloclientes.php');
 $react = $Ciclo->read();
 
 $dataPoints = array( 
